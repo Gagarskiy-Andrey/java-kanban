@@ -1,11 +1,10 @@
-package Tasks;
+package tasks;
 
 import java.util.Objects;
 
 public class Task {
     protected Integer id;
     protected String name;
-
     protected String description;
     protected TaskStatus status;
 
@@ -23,30 +22,37 @@ public class Task {
     }
 
     public Integer getId() {
+
         return id;
     }
 
     public void setId(Integer id) {
+
         this.id = id;
     }
 
     public TaskStatus getStatus() {
+
         return status;
     }
 
     public void setStatus(TaskStatus status) {
+
         this.status = status;
     }
 
     public String getName() {
+
         return name;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
     public String getDescription() {
+
         return description;
     }
 
@@ -64,6 +70,7 @@ public class Task {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(id);
     }
 
