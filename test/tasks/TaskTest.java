@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 class TaskTest {
 
     private TaskManager taskManager;
+
     @BeforeEach
     void init() {
         taskManager = Manager.getDefault();
@@ -107,8 +108,8 @@ class TaskTest {
     @Test
     void checkEqualTasks() {
         // prepare
-        Task task1 = new Task(1,"task1", "description1", TaskStatus.NEW);
-        Task task2 = new Task(1,"task2", "description2", TaskStatus.NEW);
+        Task task1 = new Task(1, "task1", "description1", TaskStatus.NEW);
+        Task task2 = new Task(1, "task2", "description2", TaskStatus.NEW);
         // do
         // check
         assertEquals(task1, task2);

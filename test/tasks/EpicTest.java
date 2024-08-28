@@ -13,10 +13,12 @@ import java.util.ArrayList;
 class EpicTest {
 
     private TaskManager taskManager;
+
     @BeforeEach
     void init() {
         taskManager = Manager.getDefault();
     }
+
     @Test
     void getSubtaskId() {
         // prepare

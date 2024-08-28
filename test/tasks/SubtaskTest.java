@@ -11,10 +11,12 @@ import org.junit.jupiter.api.BeforeEach;
 class SubtaskTest {
 
     private TaskManager taskManager;
+
     @BeforeEach
     void init() {
         taskManager = Manager.getDefault();
     }
+
     @Test
     void getEpicId() {
         // prepare

@@ -3,21 +3,29 @@ package manager;
 import tasks.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private ArrayList<Task> viewsHistory = new ArrayList<>();
+    private final List<Task> history = new ArrayList<>();
+
+    public static final int MAX_SIZE = 10;
+
     @Override
     public void add(Task task) {
-    if (viewsHistory.size() == 10) {
-        viewsHistory.remove(0);
+        if (task == null) {
+            return;
         }
-    viewsHistory.add(task);
+        if (history.size() == MAX_SIZE) {
+            history.remove(0);
+        }
+        history.add(task);
     }
+
     @Override
-    public ArrayList<Task> getHistory() {
-        return viewsHistory;
+    public List<Task> getHistory() {
+        return history;
     }
 
 
