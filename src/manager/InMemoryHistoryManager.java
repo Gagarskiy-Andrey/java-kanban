@@ -12,7 +12,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private final Map<Integer, Node> history = new HashMap<>();
 
-    private int lastId = 0;
+    private Integer lastId = null;
 
     private Node first;
     private Node last;
