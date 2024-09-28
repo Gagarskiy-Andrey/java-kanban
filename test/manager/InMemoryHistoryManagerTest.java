@@ -23,7 +23,7 @@ class InMemoryHistoryManagerTest {
     @Test
     void add() {
         // prepare
-        Epic epic = new Epic("epic1", "description1", TaskStatus.NEW);
+        Epic epic = new Epic(1,"epic1", "description1", TaskStatus.NEW);
         // do
         historyManager.add(epic);
         // check

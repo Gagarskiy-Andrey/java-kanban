@@ -12,8 +12,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private final Map<Integer, Node> history = new HashMap<>();
 
-    private Integer lastId = null;
-
     private Node first;
     private Node last;
 
@@ -31,19 +29,13 @@ public class InMemoryHistoryManager implements HistoryManager {
 
 
     private void linkLast(Task task) {
-
-        if (history.isEmpty()) {
-            first = new Node(null, task, null);
-            history.put(task.getId(), first);
-
+        final Node node = new Node(last, task, null);
+        if (first == null) {
+            first = node;
         } else {
-            last = new Node(history.get(lastId), task, null);
-            Node prevNode = history.get(lastId);
-            prevNode.next = last;
-            history.put(task.getId(), last);
+            last.next = node;
         }
-
-        lastId = task.getId();
+        last = node;
     }
 
     @Override
@@ -51,20 +43,19 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (task == null) {
             return;
         }
-        Task anotherTask = task;
-        if (history.containsKey(task.getId())) {
-            remove(task.getId());
-        }
-        linkLast(anotherTask);
+        final int id = task.getId();
+        remove(id);
+        linkLast(task);
+        history.put(id, last);
     }
 
     @Override
     public void remove(int id) {
-        if (history.containsKey(id)) {
-            Node deleteNode = history.get(id);
-            history.remove(id);
-            removeNode(deleteNode);
+        final Node node = history.remove(id);
+        if (node == null) {
+            return;
         }
+        removeNode(node);
     }
 
     public void removeNode(Node node) {
@@ -91,26 +82,13 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        List<Task> historyList = new ArrayList<>();
-        Node anotherNode;
+        ArrayList<Task> tasks = new ArrayList<>();
 
-        if (first == null) {
-            return historyList;
-
-        } else if (last == null) {
-            historyList.add(first.task);
-            return historyList;
-
-        } else {
-            anotherNode = first.next;
-            historyList.add(first.task);
-            historyList.add(anotherNode.task);
-            while (anotherNode.next != null) {
-                anotherNode = anotherNode.next;
-                historyList.add(anotherNode.task);
-            }
+        Node node = first;
+        while (node != null) {
+            tasks.add(node.task);
+            node = node.next;
         }
-
-        return historyList;
+        return tasks;
     }
 }
