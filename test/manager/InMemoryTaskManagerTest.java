@@ -69,14 +69,19 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void deleteTask() {
+    void deleteTask_andDeleteTaskInHistory() {
         // prepare
+
+        HistoryManager historyManager;
         Task task = new Task("task1", "description1", TaskStatus.NEW);
         int taskId = taskManager.addNewTask(task).getId();
         // do
-        taskManager.deleteTask(taskId);
+        historyManager = Manager.getDefaultHistory();
         // check
+        taskManager.deleteTask(taskId);
         assertTrue(taskManager.getTasks().isEmpty());
+        assertTrue(historyManager.getHistory().isEmpty());
+
 
     }
 
@@ -193,7 +198,6 @@ class InMemoryTaskManagerTest {
     void addNewSubtask_addSubtaskWithoutEpic() {
         // prepare
         Subtask subtask = new Subtask("sub1", "description1", TaskStatus.NEW, 1);
-        Subtask expectedSubtask = new Subtask(2, "sub1", "description1", TaskStatus.NEW);
         // do
         taskManager.addNewSubtask(subtask);
         // check
