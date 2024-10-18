@@ -1,14 +1,21 @@
-import manager.Manager;
-import manager.TaskManager;
+import exceptions.ManagerLoadException;
+import managers.FileBackedTaskManager;
+import managers.Manager;
+import managers.TaskManager;
 import tasks.*;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ManagerLoadException {
         System.out.println("Поехали!");
 
         TaskManager taskManager = Manager.getDefault();
+        File file = new File("/Users/andrei/clone/java-kanban/data.csv");
+        //TaskManager tManager = Manager.getFileBackedTaskManager(file);
 
         Task newTask1 = new Task("Заголовок1", "Описание1", TaskStatus.NEW); // Для проверки создали задачу с параметрами
         taskManager.addNewTask(newTask1);
@@ -99,6 +106,34 @@ public class Main {
         taskManager.getTask(1);
 
         System.out.println(taskManager.getHistory());
+        System.out.println("_____________________________________________________________");
+
+        //Task newTask11 = new Task("Заголовок1", "Описание1", TaskStatus.NEW);
+        //tManager.addNewTask(newTask11);
+        //Task newTask22 = new Task("Заголовок2", "Описание2", TaskStatus.NEW);
+        //tManager.addNewTask(newTask22);
+        //Epic newEpic11 = new Epic("Эпик1", "Описание1", TaskStatus.NEW);
+        //tManager.addNewEpic(newEpic11);
+        //Epic newEpic22 = new Epic("Эпик2", "Описание2", TaskStatus.NEW);
+        //tManager.addNewEpic(newEpic22);
+        //Subtask newSubtask11 = new Subtask("Подзадача1", "Описание1", TaskStatus.NEW, newEpic1.getId());
+        //tManager.addNewSubtask(newSubtask11);
+        //Subtask newSubtask22 = new Subtask("Подзадача2", "Описание2", TaskStatus.NEW, newEpic1.getId());
+        //tManager.addNewSubtask(newSubtask22);
+        //Subtask newSubtask33 = new Subtask("Подзадача3", "Описание3", TaskStatus.NEW, newEpic2.getId());
+        //tManager.addNewSubtask(newSubtask33);
+
+        FileBackedTaskManager tManager2 = Manager.getFileBackedTaskManager(file);
+        FileBackedTaskManager tManager1 = tManager2.loadFromFile(file);
+        tManager1.getTask(1);
+        tManager1.getTask(2);
+        tManager1.getEpic(3);
+        tManager1.getEpic(4);
+        tManager1.getSubtask(5);
+        tManager1.getSubtask(6);
+        tManager1.getSubtask(7);
+
+        System.out.println(tManager1.getHistory());
         System.out.println("_____________________________________________________________");
 
     }

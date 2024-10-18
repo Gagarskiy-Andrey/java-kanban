@@ -7,6 +7,8 @@ public class Epic extends Task {
 
     protected List<Integer> subtaskId = new ArrayList<>();
 
+    protected final TaskType type = TaskType.EPIC;
+
     public Epic(String name, String description, TaskStatus status) {
 
         super(name, description, status);
@@ -14,6 +16,11 @@ public class Epic extends Task {
 
     public Epic(Integer id, String name, String description, TaskStatus status) {
         super(id, name, description, status);
+    }
+
+    @Override
+    public TaskType getType() {
+        return type;
     }
 
     public List<Integer> getSubtaskId() {
@@ -36,12 +43,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "Epic{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
+        return String.format("%s,%s,%s,%s,%s", id, type, name, status, description);
     }
 
 }
