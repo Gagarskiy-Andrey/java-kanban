@@ -1,7 +1,7 @@
 package tasks;
 
-import manager.Manager;
-import manager.TaskManager;
+import managers.Manager;
+import managers.TaskManager;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
