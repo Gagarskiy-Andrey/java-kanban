@@ -1,4 +1,4 @@
-package manager;
+package managers;
 
 import tasks.Epic;
 import tasks.Subtask;
@@ -12,11 +12,11 @@ import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, Subtask> subtasks = new HashMap<>();
-    private final HistoryManager historyManager;
-    private int id = 1;
+    protected Map<Integer, Task> tasks = new HashMap<>();
+    protected Map<Integer, Epic> epics = new HashMap<>();
+    protected Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected HistoryManager historyManager;
+    protected int id = 1;
 
     public InMemoryTaskManager() {
         this.historyManager = Manager.getDefaultHistory();
