@@ -1,5 +1,7 @@
 package tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -8,6 +10,9 @@ public class Task {
     protected String description;
     protected TaskStatus status;
     protected final TaskType type = TaskType.TASK;
+    protected LocalDateTime startTime;
+    protected Duration duration;
+    protected LocalDateTime endTime;
 
     public Task(String name, String description, TaskStatus status) {
         this.name = name;
@@ -20,6 +25,49 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = status;
+    }
+
+    public Task(String name, String description, TaskStatus status, LocalDateTime startTime, int duration) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.startTime = startTime;
+        this.duration = Duration.ofMinutes(duration);
+        this.endTime = startTime.plusMinutes(duration);
+    }
+
+    public Task(Integer id, String name, String description, TaskStatus status, LocalDateTime startTime, Integer duration) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.startTime = startTime;
+        this.duration = Duration.ofMinutes(duration);
+        this.endTime = startTime.plusMinutes(duration);
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public TaskType getType() {
@@ -81,7 +129,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s", id, type, name, status, description);
+        return String.format("%s,%s,%s,%s,%s,%s,%s", id, type, name, status, description, startTime, duration.toMinutes());
     }
 }
 
