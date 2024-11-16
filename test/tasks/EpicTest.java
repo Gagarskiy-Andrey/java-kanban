@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 class EpicTest {
@@ -23,9 +24,9 @@ class EpicTest {
     void getSubtaskId() {
         // prepare
         Epic epic = new Epic("epic1", "description1", TaskStatus.NEW);
-        Subtask subtask1 = new Subtask("sub1", "des1", TaskStatus.NEW, 1);
-        Subtask subtask2 = new Subtask("sub2", "des2", TaskStatus.NEW, 1);
-        Subtask subtask3 = new Subtask("sub3", "des3", TaskStatus.NEW, 1);
+        Subtask subtask1 = new Subtask("sub1", "des1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10, 1);
+        Subtask subtask2 = new Subtask("sub2", "des2", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 20), 10, 1);
+        Subtask subtask3 = new Subtask("sub3", "des3", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 30), 10, 1);
         ArrayList<Integer> subId = new ArrayList<>();
         // do
         taskManager.addNewEpic(epic);
@@ -54,7 +55,7 @@ class EpicTest {
     void removeSubtask() {
         // prepare
         Epic epic = new Epic("epic1", "description1", TaskStatus.NEW);
-        Subtask subtask1 = new Subtask("sub1", "des1", TaskStatus.NEW, 1);
+        Subtask subtask1 = new Subtask("sub1", "des1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10, 1);
         ArrayList<Integer> zero = new ArrayList<>();
         // do
         taskManager.addNewEpic(epic);
@@ -68,7 +69,7 @@ class EpicTest {
     void cleanSubtaskIds() {
         // prepare
         Epic epic = new Epic("epic1", "description1", TaskStatus.NEW);
-        Subtask subtask1 = new Subtask("sub1", "des1", TaskStatus.NEW, 1);
+        Subtask subtask1 = new Subtask("sub1", "des1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10, 1);
         ArrayList<Integer> zero = new ArrayList<>();
         // do
         taskManager.addNewEpic(epic);

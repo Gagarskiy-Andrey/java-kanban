@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 
+import java.time.LocalDateTime;
+
 class SubtaskTest {
 
     private TaskManager taskManager;
@@ -21,7 +23,7 @@ class SubtaskTest {
     void getEpicId() {
         // prepare
         Epic epic = new Epic("epic1", "description1", TaskStatus.NEW);
-        Subtask subtask1 = new Subtask("sub1", "des1", TaskStatus.NEW, 1);
+        Subtask subtask1 = new Subtask("sub1", "des1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10, 1);
         // do
         taskManager.addNewEpic(epic);
         taskManager.addNewSubtask(subtask1);
@@ -34,7 +36,7 @@ class SubtaskTest {
     void setEpicId() {
         // prepare
         Epic epic = new Epic("epic1", "description1", TaskStatus.NEW);
-        Subtask subtask1 = new Subtask("sub1", "des1", TaskStatus.NEW, 1);
+        Subtask subtask1 = new Subtask("sub1", "des1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10, 1);
         // do
         taskManager.addNewEpic(epic);
         taskManager.addNewSubtask(subtask1);

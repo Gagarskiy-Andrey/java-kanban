@@ -9,13 +9,16 @@ import tasks.TaskStatus;
 import tasks.TaskType;
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
+    private static final String HEADER = "ID,TYPE,NAME,STATUS,DESCRIPTION,START_TIME,DURATION,EPIC";
     private final File file;
-    private static final String HEADER = "ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC";
 
     public FileBackedTaskManager(File file) {
         this.file = file;
@@ -64,27 +67,36 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String tStatus = newTask[3];
         TaskStatus status = TaskStatus.valueOf(tStatus);
         String description = newTask[4];
-
-
+        LocalDateTime startTime;
+        Integer duration;
+        if (newTask[5].equals("null")) {
+            startTime = null;
+            duration = null;
+        } else {
+            startTime = LocalDateTime.parse(newTask[5]);
+            duration = Integer.parseInt(newTask[6]);
+        }
         if (taskType.equals(TaskType.TASK)) {
-            return new Task(id, name, description, status);
+            return new Task(id, name, description, status, startTime, duration);
         } else if (taskType.equals(TaskType.EPIC)) {
-            return new Epic(id, name, description, status);
+            if (Objects.isNull(startTime)) {
+                return new Epic(id, name, description, status, null, null);
+            } else {
+                return new Epic(id, name, description, status, startTime, Duration.ofMinutes(duration));
+            }
         } else if (taskType.equals(TaskType.SUBTASK)) {
-            int epicId = Integer.parseInt(newTask[5]);
-            return new Subtask(id, name, description, status, epicId);
+            int epicId = Integer.parseInt(newTask[7]);
+            return new Subtask(id, name, description, status, startTime, duration, epicId);
         } else {
             return null;
         }
     }
 
     public static FileBackedTaskManager loadFromFile(File file) {
-
         Map<Integer, Task> tasks = new HashMap<>();
         Map<Integer, Subtask> subtasks = new HashMap<>();
         Map<Integer, Epic> epics = new HashMap<>();
         int id = 0;
-
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             Task task = null;
             while (br.ready()) {
@@ -92,10 +104,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 if (!taskLine.startsWith("ID")) {
                     task = fromString(taskLine);
                 }
-
                 if (task != null) {
                     id = Math.max(id, task.getId());
-
                     if (task.getType().equals(TaskType.TASK)) {
                         tasks.put(task.getId(), task);
                     } else if (task.getType().equals(TaskType.EPIC)) {
@@ -105,7 +115,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     }
                 }
             }
-
             for (Subtask sub : subtasks.values()) {
                 Epic epic = epics.get(sub.getEpicId());
                 epic.setSubtaskId(sub.getId());
@@ -194,6 +203,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static String toString(Task task) {
-        return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + "," + task.getDescription() + "," + (task.getType().equals(TaskType.SUBTASK) ? ((Subtask) task).getEpicId() : "");
+        if (Objects.isNull(task.getStartTime())) {
+            return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + "," + task.getDescription() + "," + "null" + "," + "null";
+        }
+        return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + "," + task.getDescription() + "," + task.getStartTime() + "," + task.getDuration().toMinutes() + "," + (task.getType().equals(TaskType.SUBTASK) ? ((Subtask) task).getEpicId() : "");
     }
 }
