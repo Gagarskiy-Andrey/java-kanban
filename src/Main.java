@@ -94,5 +94,9 @@ public class Main {
 
         System.out.println(taskManager.getPrioritizedTasks());
         System.out.println(tManager.getPrioritizedTasks());
+        System.out.println("_____________________________________________________________");
+        Task task11 = new Task(1, "Заголовок2", "Описание2", TaskStatus.IN_PROGRESS, LocalDateTime.of(2024, 11, 4, 15, 10), 10);
+        taskManager.addNewTask(task11);
+        System.out.println(taskManager.getPrioritizedTasks());
     }
 }

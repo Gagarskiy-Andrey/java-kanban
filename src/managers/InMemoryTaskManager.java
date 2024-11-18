@@ -1,5 +1,6 @@
 package managers;
 
+import exceptions.TaskValidationException;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
@@ -37,15 +38,20 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task addNewTask(Task newTask) {
-        if (toBeOrNotToBeAdded(newTask)) {
-            int newId = generateNewId();
-            newTask.setId(newId);
-            tasks.put(newTask.getId(), newTask);
-            prioritizedTasks.add(newTask);
-            return newTask;
-        } else {
-            return null;
+        try {
+            if (!toBeOrNotToBeAdded(newTask)) {
+                throw new TaskValidationException("Невозможно добавить задачу. Сроки выполнения задачи имеют пересечечие с уже добавленными.");
+            } else {
+                int newId = generateNewId();
+                newTask.setId(newId);
+                tasks.put(newTask.getId(), newTask);
+                prioritizedTasks.add(newTask);
+                return newTask;
+            }
+        } catch (TaskValidationException e) {
+            System.out.println(e.getMessage());
         }
+        return newTask;
     }
 
     @Override
@@ -56,11 +62,16 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         prioritizedTasks.remove(savedTask);
-        if (toBeOrNotToBeAdded(task)) {
-            tasks.put(id, task);
-            prioritizedTasks.add(task);
-        } else {
-            prioritizedTasks.add(savedTask);
+        try {
+            if (!toBeOrNotToBeAdded(task)) {
+                prioritizedTasks.add(savedTask);
+                throw new TaskValidationException("Невозможно добавить задачу. Сроки выполнения задачи имеют пересечечие с уже добавленными.");
+            } else {
+                tasks.put(id, task);
+                prioritizedTasks.add(task);
+            }
+        } catch (TaskValidationException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -147,18 +158,22 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             return null;
         }
-        if (toBeOrNotToBeAdded(subtask)) {
-            int id = generateNewId();
-            subtask.setId(id);
-            subtasks.put(id, subtask);
-            epic.setSubtaskId(subtask.getId());
-            updateEpicStatus(epicId);
-            updateEpicTimeFrame(epicId);
-            prioritizedTasks.add(subtask);
-            return id;
-        } else {
-            return null;
+        try {
+            if (!toBeOrNotToBeAdded(subtask)) {
+                throw new TaskValidationException("Невозможно добавить задачу. Сроки выполнения задачи имеют пересечечие с уже добавленными.");
+            } else {
+                int id = generateNewId();
+                subtask.setId(id);
+                subtasks.put(id, subtask);
+                epic.setSubtaskId(subtask.getId());
+                refreshEpic(epicId);
+                prioritizedTasks.add(subtask);
+                return id;
+            }
+        } catch (TaskValidationException e) {
+            System.out.println(e.getMessage());
         }
+        return id;
     }
 
     @Override
@@ -171,8 +186,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
         Epic epic = epics.get(subtask.getEpicId());
         epic.removeSubtask(id);
-        updateEpicStatus(epic.getId());
-        updateEpicTimeFrame(epic.getId());
+        refreshEpic(epic.getId());
+
     }
 
     @Override
@@ -189,13 +204,17 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         prioritizedTasks.remove(savedSubtask);
-        if (toBeOrNotToBeAdded(subtask)) {
-            subtasks.put(id, subtask);
-            updateEpicStatus(epicId);
-            updateEpicTimeFrame(epicId);
-            prioritizedTasks.add(subtask);
-        } else {
-            prioritizedTasks.add(savedSubtask);
+        try {
+            if (!toBeOrNotToBeAdded(subtask)) {
+                prioritizedTasks.add(savedSubtask);
+                throw new TaskValidationException("Невозможно добавить задачу. Сроки выполнения задачи имеют пересечечие с уже добавленными.");
+            } else {
+                subtasks.put(id, subtask);
+                refreshEpic(epicId);
+                prioritizedTasks.add(subtask);
+            }
+        } catch (TaskValidationException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -292,6 +311,11 @@ public class InMemoryTaskManager implements TaskManager {
         epics.get(epicId).setStartTime(startTime);
         epics.get(epicId).setDuration(duration);
         epics.get(epicId).setEndTime(endTime);
+    }
+
+    protected void refreshEpic(int epicId) {
+        updateEpicStatus(epicId);
+        updateEpicTimeFrame(epicId);
     }
 
     protected boolean checkForIntersections(Task first, Task second) {

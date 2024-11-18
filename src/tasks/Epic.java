@@ -9,8 +9,6 @@ import java.util.Objects;
 public class Epic extends Task {
 
     protected List<Integer> subtaskId = new ArrayList<>();
-    protected LocalDateTime startTime;
-    protected Duration duration;
     protected LocalDateTime endTime;
     protected final TaskType type = TaskType.EPIC;
 
@@ -59,30 +57,11 @@ public class Epic extends Task {
         subtaskId.clear();
     }
 
-    public void setStartTime(LocalDateTime time) {
-        this.startTime = time;
-    }
-
-    @Override
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = duration;
-    }
-
-    @Override
-    public Duration getDuration() {
-        return duration;
-    }
-
     @Override
     public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    @Override
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
