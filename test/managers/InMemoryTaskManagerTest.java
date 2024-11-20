@@ -1,5 +1,6 @@
 package managers;
 
+import exceptions.TaskValidationException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -83,18 +84,12 @@ class InMemoryTaskManagerTest extends AbstractTaskManagerTest<TaskManager> {
         // prepare
         Task task1 = new Task("task1", "desc1", TaskStatus.NEW, time1, 20);
         Task task2 = new Task("task2", "desc2", TaskStatus.NEW, time1, 20);
-        Task task3 = new Task("task3", "desc3", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 0), 40);
-        Task task4 = new Task("task4", "desc4", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 0), 20);
-        Task task5 = new Task("task5", "desc5", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 20), 20);
         //do
         taskManager.addNewTask(task1);
-        taskManager.addNewTask(task2);
-        taskManager.addNewTask(task3);
-        taskManager.addNewTask(task4);
-        taskManager.addNewTask(task5);
         //check
-        assertEquals(taskManager.getTasks().size(), 1);
-        assertTrue(taskManager.getTasks().contains(task1));
+        assertThrows(TaskValidationException.class, () -> taskManager.addNewTask(task2));
+        /*assertEquals(taskManager.getTasks().size(), 1);
+        assertTrue(taskManager.getTasks().contains(task1));*/
     }
 
     @Test

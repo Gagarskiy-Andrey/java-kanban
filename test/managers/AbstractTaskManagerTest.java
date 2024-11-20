@@ -331,7 +331,7 @@ public class AbstractTaskManagerTest<T extends TaskManager> {
         taskManager.addNewSubtask(subtask1);
         Subtask subtask2 = new Subtask("subtask2", "description1", TaskStatus.NEW, time2, duration, 1);
         taskManager.addNewSubtask(subtask2);
-        Subtask subtask3 = new Subtask("subtask3", "description1", TaskStatus.NEW, time1, duration, 1);
+        Subtask subtask3 = new Subtask("subtask3", "description1", TaskStatus.NEW, time3, duration, 1);
         taskManager.addNewSubtask(subtask3);
         // do
         taskManager.deleteSubtasks();
