@@ -42,6 +42,8 @@ public interface TaskManager {
 
     void deleteSubtasks();
 
+    List<Task> getPrioritizedTasks();
+
     List<Task> getTasks();
 
     List<Epic> getEpics();

@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 
+import java.time.LocalDateTime;
+
 class TaskTest {
 
     private TaskManager taskManager;
@@ -20,7 +22,7 @@ class TaskTest {
     @Test
     void getId() {
         // prepare
-        Task task = new Task("task1", "description1", TaskStatus.NEW);
+        Task task = new Task("task1", "description1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10);
         taskManager.addNewTask(task);
         // do
         Integer id = taskManager.getTask(1).getId();
@@ -31,7 +33,7 @@ class TaskTest {
     @Test
     void setId() {
         // prepare
-        Task task = new Task("task1", "description1", TaskStatus.NEW);
+        Task task = new Task("task1", "description1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10);
         taskManager.addNewTask(task);
         // do
         taskManager.getTask(1).setId(7);
@@ -42,7 +44,7 @@ class TaskTest {
     @Test
     void getStatus() {
         // prepare
-        Task task = new Task("task1", "description1", TaskStatus.NEW);
+        Task task = new Task("task1", "description1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10);
         taskManager.addNewTask(task);
         // do
         TaskStatus status = taskManager.getTask(1).getStatus();
@@ -53,7 +55,7 @@ class TaskTest {
     @Test
     void setStatus() {
         // prepare
-        Task task = new Task("task1", "description1", TaskStatus.NEW);
+        Task task = new Task("task1", "description1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10);
         taskManager.addNewTask(task);
         // do
         taskManager.getTask(1).setStatus(TaskStatus.DONE);
@@ -64,7 +66,7 @@ class TaskTest {
     @Test
     void getName() {
         // prepare
-        Task task = new Task("task1", "description1", TaskStatus.NEW);
+        Task task = new Task("task1", "description1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10);
         taskManager.addNewTask(task);
         // do
         String name = taskManager.getTask(1).getName();
@@ -75,7 +77,7 @@ class TaskTest {
     @Test
     void setName() {
         // prepare
-        Task task = new Task("task1", "description1", TaskStatus.NEW);
+        Task task = new Task("task1", "description1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10);
         taskManager.addNewTask(task);
         // do
         taskManager.getTask(1).setName("task2");
@@ -86,7 +88,7 @@ class TaskTest {
     @Test
     void getDescription() {
         // prepare
-        Task task = new Task("task1", "description1", TaskStatus.NEW);
+        Task task = new Task("task1", "description1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10);
         taskManager.addNewTask(task);
         // do
         String description = taskManager.getTask(1).getDescription();
@@ -97,7 +99,7 @@ class TaskTest {
     @Test
     void setDescription() {
         // prepare
-        Task task = new Task("task1", "description1", TaskStatus.NEW);
+        Task task = new Task("task1", "description1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10);
         taskManager.addNewTask(task);
         // do
         taskManager.getTask(1).setDescription("description2");
@@ -108,8 +110,8 @@ class TaskTest {
     @Test
     void checkEqualTasks() {
         // prepare
-        Task task1 = new Task(1, "task1", "description1", TaskStatus.NEW);
-        Task task2 = new Task(1, "task2", "description2", TaskStatus.NEW);
+        Task task1 = new Task(1, "task1", "description1", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10);
+        Task task2 = new Task(1, "task2", "description2", TaskStatus.NEW, LocalDateTime.of(2024, 11, 11, 10, 10), 10);
         // do
         // check
         assertEquals(task1, task2);

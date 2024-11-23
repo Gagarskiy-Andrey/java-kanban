@@ -12,36 +12,35 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class FileBackedTaskManagerTest {
+public class FileBackedTaskManagerTest extends AbstractTaskManagerTest<TaskManager> {
 
-    private FileBackedTaskManager taskManager;
+    private FileBackedTaskManager fileBackedTaskManager;
 
     private File file;
 
     @BeforeEach
-    void init() {
+    void initFile() {
         file = null;
         try {
             file = java.io.File.createTempFile("data", "csv");
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-        taskManager = Manager.getFileBackedTaskManager(file);
+        fileBackedTaskManager = Manager.getFileBackedTaskManager(file);
     }
 
     @Test
     void save_shouldSaveFewTasksInFile() {
         // prepare
-        Task task = new Task("Задача1", "Описание1", TaskStatus.NEW);
-        Epic epic = new Epic("Эпик1", "Описание1", TaskStatus.NEW);
-        Subtask subtask = new Subtask("Подзадача1", "Описание1", TaskStatus.NEW, 2);
+        Task task = new Task("Задача1", "Описание1", TaskStatus.NEW, time1, duration);
+        Epic epic = new Epic("Эпик1", "Описание1", TaskStatus.NEW, time2, duration);
+        Subtask subtask = new Subtask("Подзадача1", "Описание1", TaskStatus.NEW, time3, duration, 2);
         //do
-        Task newTask = taskManager.addNewTask(task);
-        Epic newEpic = taskManager.addNewEpic(epic);
-        Subtask newSubtask = taskManager.getSubtask(taskManager.addNewSubtask(subtask));
+        Task newTask = fileBackedTaskManager.addNewTask(task);
+        Epic newEpic = fileBackedTaskManager.addNewEpic(epic);
+        Subtask newSubtask = fileBackedTaskManager.getSubtask(fileBackedTaskManager.addNewSubtask(subtask));
         // check
         boolean taskInFile = false;
         boolean epicInFile = false;
@@ -65,17 +64,17 @@ public class FileBackedTaskManagerTest {
     @Test
     void save_shouldLoadTasks() {
         // prepare
-        Task task = new Task("Задача1", "Описание1", TaskStatus.NEW);
-        Epic epic = new Epic("Эпик1", "Описание1", TaskStatus.NEW);
-        Subtask subtask = new Subtask("Подзадача1", "Описание1", TaskStatus.NEW, 2);
+        Task task = new Task("Задача1", "Описание1", TaskStatus.NEW, time1, duration);
+        Epic epic = new Epic("Эпик1", "Описание1", TaskStatus.NEW, time2, duration);
+        Subtask subtask = new Subtask("Подзадача1", "Описание1", TaskStatus.NEW, time3, duration, 2);
         //do
-        Task newTask = taskManager.addNewTask(task);
-        Epic newEpic = taskManager.addNewEpic(epic);
-        Subtask newSubtask = taskManager.getSubtask(taskManager.addNewSubtask(subtask));
+        Task newTask = fileBackedTaskManager.addNewTask(task);
+        Epic newEpic = fileBackedTaskManager.addNewEpic(epic);
+        Subtask newSubtask = fileBackedTaskManager.getSubtask(fileBackedTaskManager.addNewSubtask(subtask));
         // check
         FileBackedTaskManager manager = null;
         try {
-            manager = taskManager.loadFromFile(file);
+            manager = fileBackedTaskManager.loadFromFile(file);
         } catch (ManagerLoadException | NullPointerException exception) {
             exception.printStackTrace();
         }
@@ -85,5 +84,13 @@ public class FileBackedTaskManagerTest {
         assertEquals(newTask, loadTask);
         assertEquals(newEpic, loadEpic);
         assertEquals(newSubtask, loadSub);
+    }
+
+    @Test
+    void save_shouldThrowsExceptionLoadWrongFile() {
+        // prepare
+        // do
+        // check
+        assertThrows(ManagerLoadException.class, () -> FileBackedTaskManager.loadFromFile(new File("file")));
     }
 }
