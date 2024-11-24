@@ -26,7 +26,6 @@ public class EpicHandler extends BaseHttpHandler {
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .setPrettyPrinting()
             .create();
-
     public EpicHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
     }
