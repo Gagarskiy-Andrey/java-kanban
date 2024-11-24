@@ -8,9 +8,9 @@ import java.util.Objects;
 
 public class Epic extends Task {
 
-    protected List<Integer> subtaskId = new ArrayList<>();
+    protected final List<Integer> subtaskId = new ArrayList<>();
     protected LocalDateTime endTime;
-    protected final TaskType type = TaskType.EPIC;
+    protected final TaskType prototype = TaskType.EPIC;
 
     public Epic(String name, String description, TaskStatus status) {
         super(name, description, status);
@@ -37,8 +37,8 @@ public class Epic extends Task {
     }
 
     @Override
-    public TaskType getType() {
-        return type;
+    public TaskType getPrototype() {
+        return prototype;
     }
 
     public List<Integer> getSubtaskId() {
@@ -69,9 +69,9 @@ public class Epic extends Task {
     @Override
     public String toString() {
         if (Objects.isNull(startTime)) {
-            return String.format("%s,%s,%s,%s,%s,%s,%s", id, type, name, status, description, null, null);
+            return String.format("%s,%s,%s,%s,%s,%s,%s", id, prototype, name, status, description, null, null);
         } else {
-            return String.format("%s,%s,%s,%s,%s,%s,%s", id, type, name, status, description, startTime, duration.toMinutes());
+            return String.format("%s,%s,%s,%s,%s,%s,%s", id, prototype, name, status, description, startTime, duration.toMinutes());
         }
     }
 }

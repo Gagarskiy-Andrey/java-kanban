@@ -63,7 +63,7 @@ public class Task {
         return startTime.plus(duration);
     }
 
-    public TaskType getType() {
+    public TaskType getPrototype() {
         return type;
     }
 

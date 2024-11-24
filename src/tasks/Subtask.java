@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class Subtask extends Task {
 
     protected int epicId;
-    protected final TaskType type = TaskType.SUBTASK;
+    protected final TaskType prototype = TaskType.SUBTASK;
 
     public Subtask(String name, String description, TaskStatus status, int epicId) {
         super(name, description, status);
@@ -36,8 +36,8 @@ public class Subtask extends Task {
     }
 
     @Override
-    public TaskType getType() {
-        return type;
+    public TaskType getPrototype() {
+        return prototype;
     }
 
     public int getEpicId() {
@@ -50,6 +50,6 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s,%s", id, type, name, status, description, startTime, duration.toMinutes(), epicId);
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s", id, prototype, name, status, description, startTime, duration.toMinutes(), epicId);
     }
 }
