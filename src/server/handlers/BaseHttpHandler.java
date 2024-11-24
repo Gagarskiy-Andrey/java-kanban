@@ -2,6 +2,7 @@ package server.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
@@ -15,10 +16,12 @@ public abstract class BaseHttpHandler implements HttpHandler {
         }
         exchange.close();
     }
+
     protected void sendNotFound(HttpExchange exchange) throws IOException {
         String message = "Not Found";
         sendText(exchange, message, 404);
     }
+
     protected void sendHasInteractions(HttpExchange exchange) throws IOException {
         String message = "Not Acceptable";
         sendText(exchange, message, 406);
