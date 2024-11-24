@@ -10,7 +10,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
-public class LocalDateTimeAdapter  extends TypeAdapter<LocalDateTime>{
+public class LocalDateTimeAdapter extends TypeAdapter<LocalDateTime> {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
 
@@ -27,7 +27,7 @@ public class LocalDateTimeAdapter  extends TypeAdapter<LocalDateTime>{
     public LocalDateTime read(JsonReader jsonReader) throws IOException {
         LocalDateTime time;
         try {
-        return LocalDateTime.parse(jsonReader.nextString(), formatter);
+            return LocalDateTime.parse(jsonReader.nextString(), formatter);
         } catch (DateTimeParseException ex) {
             time = null;
         }

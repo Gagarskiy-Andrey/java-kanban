@@ -11,6 +11,7 @@ import server.HttpTaskServer;
 import tasks.Epic;
 import tasks.TaskStatus;
 import tasks.Subtask;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -18,6 +19,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SubtaskHandlerTest {
@@ -50,7 +52,7 @@ class SubtaskHandlerTest {
         Epic epic = new Epic("Эпик 1", "Описание эпика 1", TaskStatus.NEW);
         taskManager.addNewEpic(epic);
         Subtask subTask = new Subtask("Подзадача 1", "Описание подзадачи 1", TaskStatus.NEW,
-                 LocalDateTime.of(2024, 10, 22, 18, 18), 30, 1);
+                LocalDateTime.of(2024, 10, 22, 18, 18), 30, 1);
         String jsonSubTask = gson.toJson(subTask);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(SUBTASKS_URL))
@@ -88,7 +90,7 @@ class SubtaskHandlerTest {
         taskManager.addNewSubtask(new Subtask("Подзадача 1", "Описание подзадачи 1", TaskStatus.NEW,
                 LocalDateTime.of(2024, 10, 22, 18, 18), 30, 1));
         taskManager.addNewSubtask(new Subtask("Подзадача 2", "Описание подзадачи 2", TaskStatus.NEW,
-               LocalDateTime.of(2025, 10, 23, 18, 18), 30, 1));
+                LocalDateTime.of(2025, 10, 23, 18, 18), 30, 1));
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(SUBTASKS_URL))
                 .GET()
@@ -123,7 +125,7 @@ class SubtaskHandlerTest {
     public void testDeleteSubtask() throws IOException, InterruptedException {
         Epic epic = new Epic("Эпик 1", "Описание эпика 1", TaskStatus.NEW);
         taskManager.addNewEpic(epic);
-        Subtask subTask = new Subtask( "Подзадача 1", "Описание подзадачи 1", TaskStatus.NEW,
+        Subtask subTask = new Subtask("Подзадача 1", "Описание подзадачи 1", TaskStatus.NEW,
                 LocalDateTime.of(2024, 10, 22, 18, 18), 30, 1);
         taskManager.addNewSubtask(subTask);
         HttpRequest request = HttpRequest.newBuilder()

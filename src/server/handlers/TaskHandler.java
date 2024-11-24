@@ -8,6 +8,7 @@ import managers.TaskManager;
 import server.typeAdapters.DurationAdapter;
 import server.typeAdapters.LocalDateTimeAdapter;
 import tasks.Task;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -22,9 +23,11 @@ public class TaskHandler extends BaseHttpHandler {
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .setPrettyPrinting()
             .create();
+
     public TaskHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
     }
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
@@ -50,6 +53,7 @@ public class TaskHandler extends BaseHttpHandler {
             sendText(exchange, "Internal Server Error", 500);
         }
     }
+
     private void handleGetById(HttpExchange exchange) throws IOException {
         try {
             String query = exchange.getRequestURI().getRawQuery();
@@ -68,6 +72,7 @@ public class TaskHandler extends BaseHttpHandler {
             sendText(exchange, "Internal Server Error", 500);
         }
     }
+
     private void handelPost(HttpExchange exchange) throws IOException {
         String query = exchange.getRequestURI().getQuery();
         String path = exchange.getRequestURI().getPath();
@@ -100,6 +105,7 @@ public class TaskHandler extends BaseHttpHandler {
             }
         }
     }
+
     private void handleDelete(HttpExchange exchange) throws IOException {
         try {
             String query = exchange.getRequestURI().getRawQuery();

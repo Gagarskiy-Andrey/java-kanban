@@ -8,6 +8,7 @@ import managers.TaskManager;
 import server.typeAdapters.DurationAdapter;
 import server.typeAdapters.LocalDateTimeAdapter;
 import tasks.Subtask;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -22,6 +23,7 @@ public class SubtaskHandler extends BaseHttpHandler {
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .setPrettyPrinting()
             .create();
+
     public SubtaskHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
     }

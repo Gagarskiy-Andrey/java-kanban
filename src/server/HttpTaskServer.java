@@ -18,6 +18,7 @@ public class HttpTaskServer {
     private final HttpServer httpServer;
     private final TaskManager taskManager;
     private static final int PORT = 8080;
+
     public HttpTaskServer(TaskManager taskManager) throws IOException {
         this.httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
         this.taskManager = taskManager;
@@ -33,10 +34,12 @@ public class HttpTaskServer {
         httpServer.start();
         System.out.println("Server start");
     }
+
     public void stop() {
         httpServer.stop(0);
         System.out.println("Server stop");
     }
+
     public static void main(String[] args) throws IOException {
         File file = new File("/Users/andrei/clone/java-kanban/data.csv");
         TaskManager taskManager = Manager.getFileBackedTaskManager(file);
