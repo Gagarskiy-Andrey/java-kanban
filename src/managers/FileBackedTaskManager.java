@@ -106,11 +106,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
                 if (task != null) {
                     id = Math.max(id, task.getId());
-                    if (task.getType().equals(TaskType.TASK)) {
+                    if (task.getPrototype().equals(TaskType.TASK)) {
                         tasks.put(task.getId(), task);
-                    } else if (task.getType().equals(TaskType.EPIC)) {
+                    } else if (task.getPrototype().equals(TaskType.EPIC)) {
                         epics.put(task.getId(), (Epic) task);
-                    } else if (task.getType().equals(TaskType.SUBTASK)) {
+                    } else if (task.getPrototype().equals(TaskType.SUBTASK)) {
                         subtasks.put(task.getId(), (Subtask) task);
                     }
                 }
@@ -204,8 +204,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public static String toString(Task task) {
         if (Objects.isNull(task.getStartTime())) {
-            return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + "," + task.getDescription() + "," + "null" + "," + "null";
+            return task.getId() + "," + task.getPrototype() + "," + task.getName() + "," + task.getStatus() + "," + task.getDescription() + "," + "null" + "," + "null";
         }
-        return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + "," + task.getDescription() + "," + task.getStartTime() + "," + task.getDuration().toMinutes() + "," + (task.getType().equals(TaskType.SUBTASK) ? ((Subtask) task).getEpicId() : "");
+        return task.getId() + "," + task.getPrototype() + "," + task.getName() + "," + task.getStatus() + "," + task.getDescription() + "," + task.getStartTime() + "," + task.getDuration().toMinutes() + "," + (task.getPrototype().equals(TaskType.SUBTASK) ? ((Subtask) task).getEpicId() : "");
     }
 }
